@@ -4,7 +4,7 @@ var data;
 
 function setup(){
   createCanvas(640, 480);
-  frameRate(2);
+  frameRate(10);
   algo = prompt("Which algo do you choose?");
 
   // Recursive Backtracker
@@ -27,7 +27,6 @@ function setup(){
 }
 
 function draw(){
-  console.log(data["backtracker"]);
   background(0);
   fill(128);
   stroke(255);
@@ -35,6 +34,7 @@ function draw(){
     ccell = data["cells"][data["current"][0]][data["current"][1]]; // Set current cell
     direction = floor(random(4)); // Choose random direction
     if(ccell[0] == false && ccell[1] == false && ccell[2] == false && ccell[3] == false){
+      console.log("Back");
       data["current"] = data["backtracker"].pop()
     }else{
       while(!ccell[direction]){ // keep chosing until aval
@@ -48,22 +48,24 @@ function draw(){
       if(direction == 3){next[0] -= 1}
       if(isvalid(next)){
         if(data["visited"].includes(data["cells"][next[0]][next[1]])){
-          if((isvalid([data["current"] + 1,data["curent"]   ]) ? data["visited"].includes(data["cells"][data["current"] + 1][data["curent"]   ]) : true)
-          && (isvalid([data["current"] - 1,data["curent"]   ]) ? data["visited"].includes(data["cells"][data["current"] - 1][data["curent"]   ]) : true)
-          && (isvalid([data["current"]   ,data["curent"] + 1]) ? data["visited"].includes(data["cells"][data["current"]    ][data["curent"] + 1]): true)
-          && (isvalid([data["current"]   ,data["curent"] - 1]) ? data["visited"].includes(data["cells"][data["current"]    ][data["curent"] - 1]): true)){
+          if((isvalid([data["current"][0] + 1,data["current"][1]   ]) ? data["visited"].includes(data["cells"][data["current"][0] + 1][data["current"][1]   ]) : true)
+          && (isvalid([data["current"][0] - 1,data["current"][1]   ]) ? data["visited"].includes(data["cells"][data["current"][0] - 1][data["current"][1]   ]) : true)
+          && (isvalid([data["current"][0]    ,data["current"][1] + 1]) ? data["visited"].includes(data["cells"][data["current"][0]   ][data["current"][1] + 1]): true)
+          && (isvalid([data["current"][0]    ,data["current"][1] - 1]) ? data["visited"].includes(data["cells"][data["current"][0]   ][data["current"][1] - 1]): true)){
           // if(data["visited"].includes(data["cells"][data["current"] + 1][data["curent"]    ]
           // && data["visited"].includes(data["cells"][data["current"] - 1][data["curent"]    ]
           // && data["visited"].includes(data["cells"][data["current"]    ][data["curent"] + 1]
           // && data["visited"].includes(data["cells"][data["current"]    ][data["curent"] - 1]){
+            console.log("Back It Up");
             data["current"] = data["backtracker"].pop();
           }
         }else{
           ccell[direction] = false; // clear the wall in that direction
+          data["backtracker"].push(data["current"])
           data["cells"][next[0]][next[1]][(direction+2)%4] = false
           data["current"] = next;
           data["visited"].push(data["cells"][data["current"][0]][data["current"][1]])
-          data["backtracker"].push(data["current"])
+          console.log("Next");
         }
       }else{
         ccell[direction] = false; // clear the wall in that direction
