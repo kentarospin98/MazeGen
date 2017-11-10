@@ -3,8 +3,10 @@ var algo;
 var data;
 
 function setup(){
-  createCanvas(640, 480);
-  frameRate(10);
+  width = 1280
+  height = 720
+  createCanvas(width, height);
+  frameRate(1000);
   algo = prompt("Which algo do you choose?");
 
   // Recursive Backtracker
@@ -12,16 +14,18 @@ function setup(){
     data = {};
     data["w"] = data["h"] = 40
     data["cells"] = []
-    for(let i = 0; i < 640/data["w"]; i++){
+    for(let i = 0; i < width/data["w"]; i++){
       let row = [];
-      for(let j = 0; j < 480/data["h"]; j++){
+      for(let j = 0; j < height/data["h"]; j++){
         row.push([true, true, true, true]) // [Top, Right, Down, Left]
       }
       data["cells"].push(row)
     }
     data["backtracker"] = [];
-    data["visited"] = [];
     data["current"] = [0, 0];
+    data["visited"] = [];
+    //data["visited"].push(data["current"]);
+    data["done"] = false;
   }
 
 }
@@ -71,14 +75,21 @@ function draw(){
         ccell[direction] = false; // clear the wall in that direction
       }
     }
-    noStroke();
-    fill(255, 0, 0, 128)
-    for(let b = 0; b < data["backtracker"].length; b++){
-      drawcell(data["backtracker"][b][0], data["backtracker"][b][1])
-
+    if(data["visited"].length == data["cells"].length * data["cells"][0].length){
+      data["done"] = true;
+      alert("I'm Done!");
+      noLoop();
     }
-    fill(255)
-    drawcell(data["current"][0], data["current"][1])
+    if(!data["done"]){
+      noStroke();
+      fill(255, 0, 0, 128)
+      for(let b = 0; b < data["backtracker"].length; b++){
+        drawcell(data["backtracker"][b][0], data["backtracker"][b][1])
+
+      }
+      fill(255)
+      drawcell(data["current"][0], data["current"][1])
+    }
     stroke(255);
     for(let i = 0; i < data["cells"].length; i++){
       for(let j = 0; j < data["cells"][i].length; j++){
@@ -86,9 +97,6 @@ function draw(){
       }
     }
 
-    if(data["visited"].length == data["cells"].length * data["cells"][0].length){
-      noLoop()
-    }
   }
 
 }
