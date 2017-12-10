@@ -3,20 +3,20 @@ var algo;
 var data;
 
 function setup(){
-  width = 1280
-  height = 720
-  createCanvas(width, height);
+  data = {};
+  data["width"] = 1920;
+  data["height"] = 1080;
+  createCanvas(data["width"], data["height"]);
   frameRate(1000);
   algo = prompt("Which algo do you choose?");
 
   // Recursive Backtracker
   if(algo == 1){
-    data = {};
-    data["w"] = data["h"] = 40
+    data["w"] = data["h"] = 120
     data["cells"] = []
-    for(let i = 0; i < width/data["w"]; i++){
+    for(let i = 0; i < data["width"]/data["w"]; i++){
       let row = [];
-      for(let j = 0; j < height/data["h"]; j++){
+      for(let j = 0; j < data["height"]/data["h"]; j++){
         row.push([true, true, true, true]) // [Top, Right, Down, Left]
       }
       data["cells"].push(row)
@@ -96,6 +96,8 @@ function draw(){
         drawlines(i, j, data["cells"][i][j]);
       }
     }
+    noFill();
+    rect(0, 0, data["width"]-1, data["height"]-1)
 
   }
 
